@@ -29,7 +29,7 @@ public class Interpreter {
 		if (args != null) {
 			Identifier id = new Identifier();
 			for (int i = 0; i < args.length; i++) {
-				id.set("$" + i);
+				id.bypass("$" + i);
 				env.add(id, args[i]);
 			}
 		}
