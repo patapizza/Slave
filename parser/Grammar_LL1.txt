@@ -13,7 +13,7 @@
 
 <number> ::= <digit> <number1>
 <number1> ::= // lambda
-	| <digit> <number1>
+	| <number>
 
 <sign> ::= // lambda
 	| -
@@ -92,7 +92,11 @@
 <identifier0> ::= <lower> <alphanum> <array>
 	| <number> // global
 <array> ::= // lambda
-	| [ <expression> ]
+	| <array_list>
+
+<array_list> ::= [ <expression> ] <array_list0>
+<array_list0> ::= // lambda
+	| <array_list>
 
 <operator> ::= +
 	| -
@@ -103,11 +107,15 @@
 <expression0> ::= <int>
 	| <identifier>
 	| <string>
-	| <fname> ( <arg> )
+	| <fname> ( <expression_list> )
 	| ( <expression> )
 <expression> ::= <expression0> <expression1>
 <expression1> ::= // lambda
 	| <operator> <expression>
+
+<expression_list> ::= <expression> <expression_list0>
+<expression_list0> ::= // lambda
+	| , <expression_list>
 
 <boolean_expression> ::= <boolean>
 	| <expression> <boolean_expression0>
