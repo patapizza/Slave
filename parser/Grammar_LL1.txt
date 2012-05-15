@@ -109,9 +109,11 @@
 	| <string>
 	| <fname> ( <expression_list> )
 	| ( <expression> )
+	| <lambda_expression>
 <expression> ::= <expression0> <expression1>
 <expression1> ::= // lambda
 	| <operator> <expression>
+<lambda_expression> ::= lambda ( <arg0> ) { <return> }
 
 <expression_list> ::= <expression> <expression_list0>
 <expression_list0> ::= // lambda
@@ -161,6 +163,7 @@
 	| say ( <expression> ) ;
 	| listen ( ) ;
 	| <function>
+	| map ( <lambda_expression> , <identifier> ) ;
 
 <statement> ::= <statement0> <statement_list>
 <statement_list> ::= // lambda
