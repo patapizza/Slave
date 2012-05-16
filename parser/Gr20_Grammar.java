@@ -1,173 +1,103 @@
 public class Gr20_Grammar extends slip.grammars.Grammar {
 
 	// number of terminals
-	private static final int NT = 98;
+	private static final int NT = 44;
 
 	// number of non-terminals
-	private static final int NNT = 42;
+	private static final int NNT = 33;
 
 	// terminal symbols
-	private static final int DIGIT_0 = 0;
-	private static final int DIGIT_1 = 1;
-	private static final int DIGIT_2 = 2;
-	private static final int DIGIT_3 = 3;
-	private static final int DIGIT_4 = 4;
-	private static final int DIGIT_5 = 5;
-	private static final int DIGIT_6 = 6;
-	private static final int DIGIT_7 = 7;
-	private static final int DIGIT_8 = 8;
-	private static final int DIGIT_9 = 9;
-	private static final int OP_MINUS = 10;
-	private static final int TRUE = 11;
-	private static final int FALSE = 12;
-	private static final int LOWER_A = 13;
-	private static final int LOWER_B = 14;
-	private static final int LOWER_C = 15;
-	private static final int LOWER_D = 16;
-	private static final int LOWER_E = 17;
-	private static final int LOWER_F = 18;
-	private static final int LOWER_G = 19;
-	private static final int LOWER_H = 20;
-	private static final int LOWER_I = 21;
-	private static final int LOWER_J = 22;
-	private static final int LOWER_K = 23;
-	private static final int LOWER_L = 24;
-	private static final int LOWER_M = 25;
-	private static final int LOWER_N = 26;
-	private static final int LOWER_O = 27;
-	private static final int LOWER_P = 28;
-	private static final int LOWER_Q = 29;
-	private static final int LOWER_R = 30;
-	private static final int LOWER_S = 31;
-	private static final int LOWER_T = 32;
-	private static final int LOWER_U = 33;
-	private static final int LOWER_V = 34;
-	private static final int LOWER_W = 35;
-	private static final int LOWER_X = 36;
-	private static final int LOWER_Y = 37;
-	private static final int LOWER_Z = 38;
-	private static final int CAPS_A = 39;
-	private static final int CAPS_B = 40;
-	private static final int CAPS_C = 41;
-	private static final int CAPS_D = 42;
-	private static final int CAPS_E = 43;
-	private static final int CAPS_F = 44;
-	private static final int CAPS_G = 45;
-	private static final int CAPS_H = 46;
-	private static final int CAPS_I = 47;
-	private static final int CAPS_J = 48;
-	private static final int CAPS_K = 49;
-	private static final int CAPS_L = 50;
-	private static final int CAPS_M = 51;
-	private static final int CAPS_N = 52;
-	private static final int CAPS_O = 53;
-	private static final int CAPS_P = 54;
-	private static final int CAPS_Q = 55;
-	private static final int CAPS_R = 56;
-	private static final int CAPS_S = 57;
-	private static final int CAPS_T = 58;
-	private static final int CAPS_U = 59;
-	private static final int CAPS_V = 60;
-	private static final int CAPS_W = 61;
-	private static final int CAPS_X = 62;
-	private static final int CAPS_Y = 63;
-	private static final int CAPS_Z = 64;
-	private static final int QUOTES = 65;
-	private static final int DOLLAR = 66;
-	private static final int LEFT_BRACKET = 67;
-	private static final int RIGHT_BRACKET = 68;
-	private static final int OP_PLUS = 69;
-	private static final int OP_TIMES = 70;
-	private static final int OP_DIVIDE = 71;
-	private static final int OP_MODULO = 72;
-	private static final int LEFT_PARENTHESIS = 73;
-	private static final int RIGHT_PARENTHESIS = 74;
-	private static final int COMMA = 75;
-	private static final int COMP_LOWERTHAN = 76;
-	private static final int COMP_GREATERTHAN = 77;
-	private static final int COMP_LOWERTHAN_OR_EQUALSTO = 78;
-	private static final int COMP_GREATERTHAN_OR_EQUALSTO = 79;
-	private static final int COMP_EQUALSTO = 80;
-	private static final int COMP_DIFFERENTTHAN = 81;
-	private static final int RESERVED_OR = 82;
-	private static final int RESERVED_AND = 83;
-	private static final int SEMICOLON = 84;
-	private static final int RESERVED_IF = 85;
-	private static final int RESERVED_ELSE = 86;
-	private static final int RESERVED_FUNCTION = 87;
-	private static final int LEFT_BRACE = 88;
-	private static final int RIGHT_BRACE = 89;
-	private static final int RESERVED_SAY = 90;
-	private static final int RESERVED_LISTEN = 91;
-	private static final int RESERVED_RETURN = 92;
-	private static final int RESERVED_WHILE = 93;
-	private static final int NOT = 94;
-	private static final int RESERVED_LAMBDA = 95;
-	private static final int RESERVED_MAP = 96;
-	private static final int EQUAL = 97;
+	private static final int TRUE = 0;
+	private static final int FALSE = 1;
+	private static final int QUOTES = 2;
+	private static final int DOLLAR = 3;
+	private static final int LEFT_BRACKET = 4;
+	private static final int RIGHT_BRACKET = 5;
+	private static final int OP_PLUS = 6;
+	private static final int OP_MINUS = 7;
+	private static final int OP_TIMES = 8;
+	private static final int OP_DIVIDE = 9;
+	private static final int OP_MODULO = 10;
+	private static final int LEFT_PARENTHESIS = 11;
+	private static final int RIGHT_PARENTHESIS = 12;
+	private static final int COMMA = 13;
+	private static final int COMP_LOWERTHAN = 14;
+	private static final int COMP_GREATERTHAN = 15;
+	private static final int COMP_LOWERTHAN_OR_EQUALSTO = 16;
+	private static final int COMP_GREATERTHAN_OR_EQUALSTO = 17;
+	private static final int COMP_EQUALSTO = 18;
+	private static final int COMP_DIFFERENTTHAN = 19;
+	private static final int RESERVED_OR = 20;
+	private static final int RESERVED_AND = 21;
+	private static final int SEMICOLON = 22;
+	private static final int RESERVED_IF = 23;
+	private static final int RESERVED_ELSE = 24;
+	private static final int RESERVED_FUNCTION = 25;
+	private static final int LEFT_BRACE = 26;
+	private static final int RIGHT_BRACE = 27;
+	private static final int RESERVED_SAY = 28;
+	private static final int RESERVED_LISTEN = 29;
+	private static final int RESERVED_RETURN = 30;
+	private static final int RESERVED_WHILE = 31;
+	private static final int NOT = 32;
+	private static final int RESERVED_LAMBDA = 33;
+	private static final int RESERVED_MAP = 34;
+	private static final int EQUAL = 35;
+	private static final int RESERVED_ARRAY = 36;
+	private static final int RESERVED_SIZE = 37;
+	private static final int RESERVED_READ = 38;
+	private static final int RESERVED_WRITE = 39;
+
+	// terminal symbols from the lexer
+	private static final int LEX_ID = 40;
+	private static final int LEX_INT = 41;
+	private static final int LEX_STR = 42;
+	private static final int LEX_FNAME = 43;
 	
 	// non-terminal symbols
-	private static final int PROGRAM = 98;
-	private static final int DIGIT = 99;
-	private static final int NUMBER = 100;
-	private static final int NUMBER1 = 101;
-	private static final int SIGN = 102;
-	private static final int INT = 103;
-	private static final int BOOLEAN = 104;
-	private static final int LOWER = 105;
-	private static final int CAPS = 106;
-	private static final int LETTER = 107;
-	private static final int ALPHANUM = 108;
-	private static final int ALPHANUM1 = 109;
-	private static final int STRING = 110;
-	private static final int IDENTIFIER = 111;
-	private static final int IDENTIFIER0 = 112;
-	private static final int ARRAY = 113;
-	private static final int ARRAY_LIST = 114;
-	private static final int ARRAY_LIST0 = 115;
-	private static final int OPERATOR = 116;
-	private static final int EXPRESSION0 = 117;
-	private static final int EXPRESSION = 118;
-	private static final int EXPRESSION1 = 119;
-	private static final int LAMBDA_EXPRESSION = 120;
-	private static final int EXPRESSION_LIST = 121;
-	private static final int EXPRESSION_LIST0 = 122;
-	private static final int BOOLEAN_EXPRESSION = 123;
-	private static final int BOOLEAN_EXPRESSION0 = 124;
-	private static final int CONDITION = 125;
-	private static final int COMPARATOR = 126;
-	private static final int BOOLEAN_OPERATOR = 127;
-	private static final int ARG0 = 128;
-	private static final int ARG = 129;
-	private static final int FNAME = 130;
-	private static final int DECLARATION = 131;
-	private static final int DECLARATION0 = 132;
-	private static final int IF = 133;
-	private static final int IF0 = 134;
-	private static final int FUNCTION = 135;
-	private static final int RETURN = 136;
-	private static final int STATEMENT0 = 137;
-	private static final int STATEMENT = 138;
-	private static final int STATEMENT_LIST = 139;
+	private static final int PROGRAM = 44;
+	private static final int INT = 45;
+	private static final int BOOLEAN = 46;
+	private static final int STRING = 47;
+	private static final int IDENTIFIER = 48;
+	private static final int IDENTIFIER0 = 49;
+	private static final int ARRAY = 50;
+	private static final int ARRAY_LIST = 51;
+	private static final int ARRAY_LIST0 = 52;
+	private static final int OPERATOR = 53;
+	private static final int EXPRESSION0 = 54;
+	private static final int EXPRESSION = 55;
+	private static final int EXPRESSION1 = 56;
+	private static final int LAMBDA_EXPRESSION = 57;
+	private static final int EXPRESSION_LIST = 58;
+	private static final int EXPRESSION_LIST0 = 59;
+	private static final int BOOLEAN_EXPRESSION = 60;
+	private static final int BOOLEAN_EXPRESSION0 = 61;
+	private static final int CONDITION = 62;
+	private static final int COMPARATOR = 63;
+	private static final int BOOLEAN_OPERATOR = 64;
+	private static final int ARG0 = 65;
+	private static final int ARG = 66;
+	private static final int FNAME = 67;
+	private static final int DECLARATION = 68;
+	private static final int DECLARATION0 = 69;
+	private static final int IF = 70;
+	private static final int IF0 = 71;
+	private static final int FUNCTION = 72;
+	private static final int RETURN = 73;
+	private static final int STATEMENT0 = 74;
+	private static final int STATEMENT = 75;
+	private static final int STATEMENT_LIST = 76;
 	
 	// production rules
 	private static final int[][][] pRonde = 
 	{
 		{ {STATEMENT} },
-		{ {DIGIT_0}, {DIGIT_1}, {DIGIT_2}, {DIGIT_3}, {DIGIT_4}, {DIGIT_5}, {DIGIT_6}, {DIGIT_7}, {DIGIT_8}, {DIGIT_9} },
-		{ {DIGIT, NUMBER1} },
-		{ {}, {NUMBER} },
-		{ {}, {OP_MINUS} },
-		{ {SIGN, NUMBER} },
+		{ {LEX_INT} },
 		{ {TRUE}, {FALSE} },
-		{ {LOWER_A}, {LOWER_B}, {LOWER_C}, {LOWER_D}, {LOWER_E}, {LOWER_F}, {LOWER_G}, {LOWER_H}, {LOWER_I}, {LOWER_J}, {LOWER_K}, {LOWER_L}, {LOWER_M}, {LOWER_N}, {LOWER_O}, {LOWER_P}, {LOWER_Q}, {LOWER_R}, {LOWER_S}, {LOWER_T}, {LOWER_U}, {LOWER_V}, {LOWER_W}, {LOWER_X}, {LOWER_Y}, {LOWER_Z} },
-		{ {CAPS_A}, {CAPS_B}, {CAPS_C}, {CAPS_D}, {CAPS_E}, {CAPS_F}, {CAPS_G}, {CAPS_H}, {CAPS_I}, {CAPS_J}, {CAPS_K}, {CAPS_L}, {CAPS_M}, {CAPS_N}, {CAPS_O}, {CAPS_P}, {CAPS_Q}, {CAPS_R}, {CAPS_S}, {CAPS_T}, {CAPS_U}, {CAPS_V}, {CAPS_W}, {CAPS_X}, {CAPS_Y}, {CAPS_Z} },
-		{ {LOWER}, {CAPS} },
-		{ {}, {ALPHANUM1, ALPHANUM} },
-		{ {LETTER}, {DIGIT} },
-		{ {QUOTES, ALPHANUM, QUOTES} },
+		{ {QUOTES, LEX_STR, QUOTES} },
 		{ {DOLLAR, IDENTIFIER0} },
-		{ {LOWER, ALPHANUM, ARRAY}, {NUMBER} },
+		{ {LEX_ID, ARRAY} },
 		{ {}, {ARRAY_LIST} },
 		{ {LEFT_BRACKET, EXPRESSION, RIGHT_BRACKET, ARRAY_LIST0} },
 		{ {}, {ARRAY_LIST} },
@@ -185,14 +115,14 @@ public class Gr20_Grammar extends slip.grammars.Grammar {
 		{ {RESERVED_OR}, {RESERVED_AND} },
 		{ {IDENTIFIER, ARG} },
 		{ {}, {COMMA, ARG0} },
-		{ {LOWER, ALPHANUM} },
+		{ {LEX_FNAME} },
 		{ {IDENTIFIER, DECLARATION0} },
 		{ {SEMICOLON}, {EQUAL, EXPRESSION, SEMICOLON} },
 		{ {RESERVED_IF, LEFT_PARENTHESIS, CONDITION, RIGHT_PARENTHESIS, LEFT_BRACE, STATEMENT, RIGHT_BRACE, IF0} },
 		{ {RESERVED_ELSE, LEFT_BRACE, STATEMENT, RIGHT_BRACE}, {} },
 		{ {RESERVED_FUNCTION, FNAME, LEFT_PARENTHESIS, ARG, RIGHT_PARENTHESIS, LEFT_BRACE, STATEMENT_LIST, RETURN, RIGHT_BRACE} },
 		{ {RESERVED_RETURN, EXPRESSION, SEMICOLON} },
-		{ {DECLARATION}, {RESERVED_WHILE, LEFT_PARENTHESIS, CONDITION, RIGHT_PARENTHESIS, LEFT_BRACE, STATEMENT, RIGHT_BRACE}, {IF}, {RESERVED_SAY, LEFT_PARENTHESIS, EXPRESSION, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_LISTEN, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, SEMICOLON}, {FUNCTION}, {RESERVED_MAP, LEFT_PARENTHESIS, LAMBDA_EXPRESSION, COMMA, IDENTIFIER, RIGHT_PARENTHESIS, SEMICOLON} },
+		{ {DECLARATION}, {RESERVED_WHILE, LEFT_PARENTHESIS, CONDITION, RIGHT_PARENTHESIS, LEFT_BRACE, STATEMENT, RIGHT_BRACE}, {IF}, {RESERVED_SAY, LEFT_PARENTHESIS, EXPRESSION, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_LISTEN, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, SEMICOLON}, {FUNCTION}, {RESERVED_MAP, LEFT_PARENTHESIS, LAMBDA_EXPRESSION, COMMA, IDENTIFIER, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_READ, LEFT_PARENTHESIS, IDENTIFIER, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_WRITE, LEFT_PARENTHESIS, IDENTIFIER, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_SIZE, LEFT_PARENTHESIS, IDENTIFIER, COMMA, IDENTIFIER, RIGHT_PARENTHESIS, SEMICOLON}, {RESERVED_ARRAY, LEFT_PARENTHESIS, IDENTIFIER, COMMA, INT, RIGHT_PARENTHESIS, SEMICOLON} },
 		{ {STATEMENT0, STATEMENT_LIST} },
 		{ {}, {STATEMENT} }
 	};
@@ -218,76 +148,14 @@ public class Gr20_Grammar extends slip.grammars.Grammar {
 
 	public String symbol(int i) {
 		switch (i) {
-			case DIGIT_0: return "0";
-			case DIGIT_1: return "1";
-			case DIGIT_2: return "2";
-			case DIGIT_3: return "3";
-			case DIGIT_4: return "4";
-			case DIGIT_5: return "5";
-			case DIGIT_6: return "6";
-			case DIGIT_7: return "7";
-			case DIGIT_8: return "8";
-			case DIGIT_9: return "9";
-			case OP_MINUS: return "-";
 			case TRUE: return "true";
 			case FALSE: return "false";
-			case LOWER_A: return "a";
-			case LOWER_B: return "b";
-			case LOWER_C: return "c";
-			case LOWER_D: return "d";
-			case LOWER_E: return "e";
-			case LOWER_F: return "f";
-			case LOWER_G: return "g";
-			case LOWER_H: return "h";
-			case LOWER_I: return "i";
-			case LOWER_J: return "j";
-			case LOWER_K: return "k";
-			case LOWER_L: return "l";
-			case LOWER_M: return "m";
-			case LOWER_N: return "n";
-			case LOWER_O: return "o";
-			case LOWER_P: return "p";
-			case LOWER_Q: return "q";
-			case LOWER_R: return "r";
-			case LOWER_S: return "s";
-			case LOWER_T: return "t";
-			case LOWER_U: return "u";
-			case LOWER_V: return "v";
-			case LOWER_W: return "w";
-			case LOWER_X: return "x";
-			case LOWER_Y: return "y";
-			case LOWER_Z: return "z";
-			case CAPS_A: return "A";
-			case CAPS_B: return "B";
-			case CAPS_C: return "C";
-			case CAPS_D: return "D";
-			case CAPS_E: return "E";
-			case CAPS_F: return "F";
-			case CAPS_G: return "G";
-			case CAPS_H: return "H";
-			case CAPS_I: return "I";
-			case CAPS_J: return "J";
-			case CAPS_K: return "K";
-			case CAPS_L: return "L";
-			case CAPS_M: return "M";
-			case CAPS_N: return "N";
-			case CAPS_O: return "O";
-			case CAPS_P: return "P";
-			case CAPS_Q: return "Q";
-			case CAPS_R: return "R";
-			case CAPS_S: return "S";
-			case CAPS_T: return "T";
-			case CAPS_U: return "U";
-			case CAPS_V: return "V";
-			case CAPS_W: return "W";
-			case CAPS_X: return "X";
-			case CAPS_Y: return "Y";
-			case CAPS_Z: return "Z";
 			case QUOTES: return "\"";
 			case DOLLAR: return "$";
 			case LEFT_BRACKET: return "[";
 			case RIGHT_BRACKET: return "]";
 			case OP_PLUS: return "+";
+			case OP_MINUS: return "-";
 			case OP_TIMES: return "*";
 			case OP_DIVIDE: return "/";
 			case OP_MODULO: return "%";
@@ -316,16 +184,8 @@ public class Gr20_Grammar extends slip.grammars.Grammar {
 			case RESERVED_LAMBDA: return "lambda";
 			case RESERVED_MAP: return "map";
 			case EQUAL: return "=";
-			case NUMBER: return "<number>";
-			case NUMBER1: return "<number1>";
-			case SIGN: return "<sign>";
 			case INT: return "<int>";
 			case BOOLEAN: return "<boolean>";
-			case LOWER: return "<lower>";
-			case CAPS: return "<caps>";
-			case LETTER: return "<letter>";
-			case ALPHANUM: return "<alphanum>";
-			case ALPHANUM1: return "<alphanum1>";
 			case STRING: return "<string>";
 			case ARRAY: return "<array>";
 			case IDENTIFIER: return "<identifier>";
@@ -355,9 +215,16 @@ public class Gr20_Grammar extends slip.grammars.Grammar {
 			case PROGRAM: return "<program>";
 			case STATEMENT: return "<statement>";
 			case LAMBDA_EXPRESSION: return "<lambda_expression>";
-			case DIGIT: return "<digit>";
 			case BOOLEAN_EXPRESSION: return "<boolean_expression>";
 			case BOOLEAN_EXPRESSION0: return "<boolean_expression0>";
+			case RESERVED_READ: return "read";
+			case RESERVED_WRITE: return "write";
+			case RESERVED_ARRAY: return "array";
+			case RESERVED_SIZE: return "size";
+			case LEX_ID: return "LEX_ID";
+			case LEX_INT: return "LEX_INT";
+			case LEX_STR: return "LEX_STR";
+			case LEX_FNAME: return "LEX_FNAME";
 			default: return "[unknown symbol]";
 		}
 	}
