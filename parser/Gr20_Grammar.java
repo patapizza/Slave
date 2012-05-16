@@ -137,8 +137,8 @@ public class Gr20_Grammar extends slip.grammars.Grammar {
 	private static final int CONDITION = 125;
 	private static final int COMPARATOR = 126;
 	private static final int BOOLEAN_OPERATOR = 127;
-	private static final int ARG = 128;
-	private static final int ARG0 = 129;
+	private static final int ARG0 = 128;
+	private static final int ARG = 129;
 	private static final int FNAME = 130;
 	private static final int DECLARATION = 131;
 	private static final int DECLARATION0 = 132;
