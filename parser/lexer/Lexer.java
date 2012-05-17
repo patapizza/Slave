@@ -64,8 +64,8 @@ public class Lexer implements ILexer {
 				int end_quote = s.indexOf("\"", i);
 				if (end_quote == -1)
 					throw new Exception("Lexical exception: unterminated string literal");
-				tokens.add(new Token(gt.terminal("LEX_STR"), s.substring(i, end_quote - 1)));
-				++i;
+				tokens.add(new Token(gt.terminal("LEX_STR"), s.substring(i, end_quote)));
+				i = end_quote;
 				tokens.add(new Token(gt.terminal("\""), "\""));
 				++i;
 				continue;
