@@ -1,84 +1,120 @@
 package lexer;
 
+import gtools.GTools;
+
+import java.util.LinkedList;
+
 public class Lexer implements ILexer {
 
-	private IToken[] tokens;
+	private LinkedList<IToken> tokens;
 	private int index;
 	private IToken last;
+	private GTools gt;
 
-	public Lexer(String s, GTools gt) {
+	public Lexer(String s, GTools gt) throws Exception {
 		index = 0;
-		String symbols = clean(s);
-		tokens = new Token[symbols.length];
+		tokens = new LinkedList<IToken>();
 		last = new Token(gt.numberOfTerminals());
-		analyze(symbols);
+		this.gt = gt;
+		analyze(clean(s));
 	}
 
 	// returns token of first symbol not yet sent (if any; else, returns token with total number of terminals
 	// throws exception if unmappable character
 	public IToken getNextSymbol() throws Exception {
-		if (index == tokens.length)
+		if (index == tokens.size())
 			return last;
-		return tokens[index++];
+		return tokens.get(index++);
 	}
 
 	// returns the source clean code, that is, after removal of [\n \t]
 	private String clean(String s) {
-		return s.replaceAll("[\n \t]+", " ");
+		return s.replaceAll("[\n \t]+", "");
 	}
 
-	private void analyze(String s) {
-		String[] reservedWords = { "lambda", "map", "true", "false", "if", "else", "function", "return", "while", "or", "and", "say", "listen", "size", "array", "read", "write", "<=", ">=", "==", "!=" };
+	private void analyze(String s) throws Exception {
+		String[] reserved_words = { "lambda", "map", "true", "false", "if", "else", "function", "return", "while", "or", "and", "say", "listen", "size", "array", "read", "write", "<=", ">=", "==", "!=" };
 		char[] singletons = { '(', ')', '{', '}', ';', '=', '+', '-', '*', '/', '%', '!', '[', ']', ',', '<', '>' };
 		int j;
+		String ss;
 		int i = 0;
-		boolean inString = false;
-		boolean inIdentifier = false;
-		// wrong! TODO: LEX_STR, LEX_INT, LEX_FNAME, LEX_ID for constants and identifiers!
-		while (i < s.length) {
-			// we are inside a string until next quote
-			if (inString) {
-				char c = s.charAt(i);
-				tokens[index++] = new Token(gt.terminal(c.toString()), c.toString());
-				++i;
-				if (c == '"')
-					inString = false;
-				continue;
-			}
-			// we are between a '$' and a non alphanum character
-			if (inIdentifier) {
-				String c = s.substring(i, i);
-				if (c.matches("[A-Za-z0-9]")) {
-					tokens[index++] = new Token(gt.terminal(c), c);
-					++i;
-				}
-				else
-					inIdentifier = false;
-				continue;
-			}
+		while (i < s.length()) {
 			// reserved words
-			for (int r = 0 ; r < reservedWords.length ; r++)
-				if (s.startsWith(reservedWords[r], i)) {
-					tokens[index++] = new Token(gt.terminal(s.substring(i, i + reservedWords[r].length)));
-					i += reservedWords[r].length;
+			for (j = 0 ; j < reserved_words.length ; j++)
+				if (s.startsWith(reserved_words[j], i)) {
+					tokens.add(new Token(gt.terminal(s.substring(i, i + reserved_words[j].length())), s.substring(i, i + reserved_words[j].length())));
+					i += reserved_words[j].length();
 					break;
 				}
-			if (r < reservedWords.length)
+			if (j < reserved_words.length)
 				continue;
 			// strings
 			if (s.startsWith("\"", i)) {
-				inString = true;
-				tokens[index++] = new Token(gt.terminal("\""), "\"");
+				tokens.add(new Token(gt.terminal("\""), "\""));
+				++i;
+				int end_quote = s.indexOf("\"", i);
+				if (end_quote == -1)
+					throw new Exception("Lexical exception: unterminated string literal");
+				tokens.add(new Token(gt.terminal("LEX_STR"), s.substring(i, end_quote - 1)));
+				++i;
+				tokens.add(new Token(gt.terminal("\""), "\""));
+				++i;
+				continue;
 			}
 			// identifiers
 			if (s.charAt(i) == '$') {
-				inIdentifier = true;
-				tokens[index++] = new Token(gt.terminal("$"), "$");
+				tokens.add(new Token(gt.terminal("$"), "$"));
+				++i;
+				j = i;
+				while (j < s.length()) {
+					ss = s.substring(j, j + 1);
+					if (!ss.matches("[A-Za-z0-9]"))
+						break;
+					++j;
+				}
+				if (j == s.length())
+					throw new Exception("Lexical exception: unterminated identifier");
+				tokens.add(new Token(gt.terminal("LEX_ID"), s.substring(i, j)));
+				i = j;
+				continue;
+			}
+			ss = s.substring(i, i + 1);
+			// fnames
+			if (ss.matches("[a-z]")) {
+				j = i + 1;
+				while (j < s.length()) {
+					ss = s.substring(j, j + 1);
+					if (!ss.matches("[A-Za-z0-9]"))
+						break;
+					++j;
+				}
+				if (j == s.length())
+					throw new Exception("Lexical exception: unterminated fname");
+				if (!ss.matches("("))
+					throw new Exception("Lexical exception: fname must be followed by '('");
+				tokens.add(new Token(gt.terminal("LEX_FNAME"), s.substring(i, j)));
+				i = j;
+				continue;
+			}
+			// constants
+			if (ss.matches("[-0-9]")) {
+				j = i + 1;
+				while (j < s.length()) {
+					ss = s.substring(j, j + 1);
+					if (!ss.matches("[0-9]"))
+						break;
+					++j;
+				}
+				if (j == s.length())
+					throw new Exception("Lexical exception: unterminated constant");
+				tokens.add(new Token(gt.terminal("LEX_INT"), s.substring(i, j)));
+				i = j;
+				continue;
 			}
 			// singletons
-			for (int r = 0 ; r < singletons.length ; r++)
-				if (s.charAt(i) == singletons[r]) {
-					tokens[index++] = new Token(gt.terminal(singletons[r].toString()));
+			for (j = 0 ; j < singletons.length ; j++)
+				if (s.charAt(i) == singletons[j]) {
+					tokens.add(new Token(gt.terminal(""+singletons[j]), ""+singletons[j]));
 					break;
 				}
 			++i;
