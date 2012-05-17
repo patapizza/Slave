@@ -4,7 +4,7 @@ Comments, bug fixes and contributions to the package are welcome.
 
 ## Author
 
-J. Odent, M. Meys, D. Goffinet
+J. Odent
 
 ## Licence
 
