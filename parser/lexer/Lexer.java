@@ -16,7 +16,7 @@ public class Lexer implements ILexer {
 		tokens = new LinkedList<IToken>();
 		last = new Token(gt.numberOfTerminals());
 		this.gt = gt;
-		analyze(clean(s));
+		tokenize(clean(s));
 	}
 
 	// returns token of first symbol not yet sent (if any; else, returns token with total number of terminals
@@ -27,12 +27,21 @@ public class Lexer implements ILexer {
 		return tokens.get(index++);
 	}
 
-	// returns the source clean code, that is, after removal of [\n \t]
-	private String clean(String s) {
-		return s.replaceAll("[\n \t]+", "");
+	public int getIndex() {
+		return index;
 	}
 
-	private void analyze(String s) throws Exception {
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	// returns the source clean code, that is, after removal of [\n \t]
+	private String clean(String s) {
+		//TODO: check unallowed chars
+		return s.replaceAll("[\n \t]+", " ");
+	}
+
+	private void tokenize(String s) throws Exception {
 		String[] reserved_words = { "lambda", "map", "true", "false", "if", "else", "function", "return", "while", "or", "and", "say", "listen", "size", "array", "read", "write", "<=", ">=", "==", "!=" };
 		char[] singletons = { '(', ')', '{', '}', ';', '=', '+', '-', '*', '/', '%', '!', '[', ']', ',', '<', '>' };
 		int j;
@@ -72,7 +81,7 @@ public class Lexer implements ILexer {
 						break;
 					++j;
 				}
-				if (j == s.length())
+				if (j == i || j == s.length())
 					throw new Exception("Lexical exception: unterminated identifier");
 				tokens.add(new Token(gt.terminal("LEX_ID"), s.substring(i, j)));
 				i = j;
@@ -90,7 +99,7 @@ public class Lexer implements ILexer {
 				}
 				if (j == s.length())
 					throw new Exception("Lexical exception: unterminated fname");
-				if (!ss.matches("("))
+				if (!ss.matches("\\("))
 					throw new Exception("Lexical exception: fname must be followed by '('");
 				tokens.add(new Token(gt.terminal("LEX_FNAME"), s.substring(i, j)));
 				i = j;

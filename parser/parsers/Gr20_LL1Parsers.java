@@ -14,31 +14,40 @@ import java.io.FileInputStream;
 
 public class Gr20_LL1Parsers {
 
+	private static int _nb_terminals;
+	private static int[][][] _parse_table;
+
 	public static boolean isOk(ILexer lex, GTools gt) throws Exception {
 		int[] S = new int[1];
 		S[0] = gt.initialSymbol();
-		return TDD(S, lex, gt);
+		_nb_terminals = gt.numberOfTerminals();
+		_parse_table = gt.parseTable();
+		return TDD(S, lex);
 	}
 
-	private static boolean TDD(int[] tau, ILexer lex, GTools gt) throws Exception {
+	private static boolean TDD(int[] tau, ILexer lex) throws Exception {
 		if (tau.length == 0) {
-			if (lex.getNextSymbol().getTerminal() == gt.numberOfTerminals())
+			if (lex.getNextSymbol().getTerminal() == _nb_terminals)
 				return true;
 			return false;
 		}
+		int[] _tau = trimFirst(tau);
 		// tau[0] is a terminal
-		if (tau[0] < gt.numberOfTerminals()) {
+		if (tau[0] < _nb_terminals) {
 			int x = lex.getNextSymbol().getTerminal();
-			if (x == gt.numberOfTerminals() || tau[0] != x)
+			if (x == _nb_terminals || tau[0] != x)
 				return false;
-			return TDD(trimFirst(tau), lex, gt);
+			return TDD(_tau, lex);
 		}
 		// tau[0] is a non-terminal
-		int[][] rules = gt.parseTable()[tau[0] - gt.numberOfTerminals()];
-		int i;
-		for (i = 0 ; i < rules.length ; i++)
-			if (rules[i] != null && TDD(append(rules[i], trimFirst(tau)), lex, gt))
+		int[][] rules = _parse_table[tau[0] - _nb_terminals];
+		int i, index;
+		for (i = 0 ; i < rules.length ; i++) {
+			index = ((Lexer) lex).getIndex();
+			if (rules[i] != null && TDD(append(rules[i], _tau), lex))
 				break;
+			((Lexer) lex).setIndex(index);
+		}
 		return i < rules.length;
 	}
 
@@ -64,13 +73,13 @@ public class Gr20_LL1Parsers {
 
 	public static void main(String[] args) {
 		String s = "";
-		File file = new File("lexer/program.source");
+		File file = new File("lexer/tiny.source");
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			DataInputStream dis = new DataInputStream(bis);
 			while (dis.available() != 0)
-				s += dis.readLine();
+				s += dis.readLine()+"\n";
 			fis.close();
 			bis.close();
 			dis.close();
