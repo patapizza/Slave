@@ -5,11 +5,16 @@ import java.util.List;
 import main.ASTNode;
 import value.Value;
 
+import statement.Return;
+
 public class Lambda extends Expression {
 
 	private ASTNode body;
 	private List<Identifier> ids;
 	private List<Value> args;
+
+	public Lambda(Return r, List<Identifier> ids) {
+	}
 
 	public Lambda(ASTNode body, List<Identifier> ids) {
 		this.body = body;

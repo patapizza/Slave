@@ -12,6 +12,9 @@ public class Function extends Statement {
 	private List<Identifier> args;
 	private ASTNode body;
 
+	public Function(FName name, List<Identifier> ids, Sequence s) {
+	}
+
 	public Function(FName name, List<Identifier> args, ASTNode body) {
 		this.name = name;
 		this.args = args;

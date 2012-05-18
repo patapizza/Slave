@@ -225,7 +225,9 @@ public class ST2AST{
                { 
                  FName x0 = trad67(tree.getChild(0)) ;
                  List<Expression> x2 = trad58(tree.getChild(2)) ;
-                 return new Call(x0, x2) ; // a modifier
+		 Call c = new Call(x0);
+		 c.setArgs(x2);
+                 return c ; // a modifier
                }
        case 4 : // <expression0> --> ( <expression> ) 
                { 
@@ -577,7 +579,7 @@ public class ST2AST{
        case 0 : // <function> --> function <fname> ( <arg0> ) { <statement_list> <return> } 
                { 
                  FName x1 = trad67(tree.getChild(1)) ;
-                 Object x3 = trad65(tree.getChild(3)) ;
+                 List<Identifier> x3 = trad65(tree.getChild(3)) ;
                  Statement x6 = trad76(tree.getChild(6)) ;
                  Return x7 = trad73(tree.getChild(7)) ;
                  return new Function(x1, x3, new Sequence(x6, x7)) ; // a modifier
