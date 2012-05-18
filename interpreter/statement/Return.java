@@ -1,22 +1,17 @@
 package statement;
 
-import main.ASTNode;
-
 import expression.Expression;
 
 public class Return extends Statement {
 
-	private ASTNode n;
+	private Expression e;
 
 	public Return(Expression e) {
+		this.e = e;
 	}
 
-	public Return(ASTNode n) {
-		this.n = n;
-	}
-
-	public ASTNode getExpression() {
-		return n;
+	public Expression getExpression() {
+		return e;
 	}
 
 }

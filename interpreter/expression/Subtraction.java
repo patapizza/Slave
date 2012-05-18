@@ -12,4 +12,12 @@ public class Subtraction extends BinaryOp {
 		this.right = e;
 	}
 
+	public Expression getLeft() {
+		return left;
+	}
+
+	public Expression getRight() {
+		return right;
+	}
+
 }

@@ -12,4 +12,12 @@ public class Addition extends BinaryOp {
 		this.right = e;
 	}
 
+	public Expression getLeft() {
+		return left;
+	}
+
+	public Expression getRight() {
+		return right;
+	}
+
 }

@@ -2,7 +2,6 @@ package statement;
 
 import java.util.List;
 
-import main.ASTNode;
 import expression.Identifier;
 import expression.FName;
 
@@ -10,15 +9,12 @@ public class Function extends Statement {
 
 	private FName name;
 	private List<Identifier> args;
-	private ASTNode body;
+	private Sequence body;
 
 	public Function(FName name, List<Identifier> ids, Sequence s) {
-	}
-
-	public Function(FName name, List<Identifier> args, ASTNode body) {
 		this.name = name;
-		this.args = args;
-		this.body = body;
+		this.args = ids;
+		this.body = s;
 	}
 
 	public FName getName() {
@@ -29,7 +25,7 @@ public class Function extends Statement {
 		return args;
 	}
 
-	public ASTNode getBody() {
+	public Sequence getBody() {
 		return body;
 	}
 

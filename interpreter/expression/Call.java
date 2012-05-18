@@ -2,21 +2,12 @@ package expression;
 
 import java.util.List;
 
-import main.ASTNode;
-
 public class Call extends Expression {
 
-	private List<ASTNode> args;
+	private List<Expression> args;
 	private FName name;
 
-	/*public Call(FName name, List<Expression> args) {
-	}*/
-	public Call(FName name) {
-	}
-	public void setArgs(List<Expression> args) {
-	}
-
-	public Call(FName name, List<ASTNode> args) {
+	public Call(FName name, List<Expression> args) {
 		this.name = name;
 		this.args = args;
 	}
@@ -26,7 +17,7 @@ public class Call extends Expression {
 		return name;
 	}
 
-	public List<ASTNode> getArgs() {
+	public List<Expression> getArgs() {
 		return args;
 	}
 

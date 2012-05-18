@@ -3,13 +3,14 @@ package main;
 import java.util.List;
 
 import expression.Identifier;
+import statement.Sequence;
 
 public class Parameter {
 
 	private List<Identifier> args;
-	private ASTNode body;
+	private Sequence body;
 
-	Parameter(List<Identifier> args, ASTNode body) {
+	Parameter(List<Identifier> args, Sequence body) {
 		this.args = args;
 		this.body = body;
 	}
@@ -18,7 +19,7 @@ public class Parameter {
 		return args;
 	}
 
-	public ASTNode getBody() {
+	public Sequence getBody() {
 		return body;
 	}
 
