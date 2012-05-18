@@ -13,7 +13,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.util.Stack;
 
-public class Gr20_LL1Parsers {
+public class LL1Parsers {
 
 	private static int _nb_terminals;
 	private static int[][][] _parse_table;
@@ -88,37 +88,6 @@ public class Gr20_LL1Parsers {
 		for (int i = children.length - 1 ; i > -1 ; i--)
 			s.push(children[i]);
 		_parse(append(rule, _tau), lex, s);
-	}
-
-	public static void main(String[] args) {
-		String s = "";
-		File file = new File("lexer/program.source");
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-			DataInputStream dis = new DataInputStream(bis);
-			while (dis.available() != 0)
-				s += dis.readLine()+"\n";
-			fis.close();
-			bis.close();
-			dis.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		GTools gt = null;
-		ILexer lex = null;
-		try {
-			gt = new GTools("Grammar_LL1.txt");
-			lex = new Lexer(s, gt);
-			/*if (isOk(lex, gt))
-				System.out.println("OK");
-			else
-				System.out.println("KO");*/
-			TreeNode node = parse(lex, gt);
-			node.print("", gt.getGrammar());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

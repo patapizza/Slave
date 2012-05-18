@@ -1,4 +1,3 @@
-// du groupe 20
 <program> ::= <statement>
 
 <int> ::= LEX_INT
@@ -63,8 +62,8 @@
 	| say ( <expression> ) ;
 	| listen ( <identifier> ) ;
 	| map ( <lambda_expression> , <identifier> ) ;
-	| read ( <identifier> ) ;
-	| write ( <identifier> ) ;
+	| read ( <string> , <identifier> ) ;
+	| write ( <string> , <identifier> ) ;
 	| size ( <identifier> , <identifier> ) ;
 	| array ( <identifier> , <int> ) ;
 	| function <fname> ( <identifier_list> ) { <statement> return <expression> ; }

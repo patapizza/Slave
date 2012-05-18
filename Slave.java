@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import gtools.GTools;
 import slip.grammars.Grammar;
 import slip.trees.TreeNode;
-import parsers.Gr20_LL1Parsers;
+import parsers.LL1Parsers;
 
 import lexer.ILexer;
 import lexer.Lexer;
@@ -28,8 +28,7 @@ class Slave {
 			dis.close();
 			GTools gt = new GTools("parser/Grammar_LL1.txt");
 			ILexer lex = new Lexer(s, gt);
-			TreeNode root = Gr20_LL1Parsers.parse(lex, gt);
-			//root.print("", gt.getGrammar());
+			TreeNode root = LL1Parsers.parse(lex, gt);
 			new Interpreter(ST2AST.tradProgram(root), null);
 		} catch (Exception e) {
 			e.printStackTrace();
