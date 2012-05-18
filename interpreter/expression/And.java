@@ -1,4 +1,4 @@
 package expression;
 
-public class And extends Expression {
+public class And extends BooleanOperator {
 }

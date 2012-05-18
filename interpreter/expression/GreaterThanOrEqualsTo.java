@@ -1,4 +1,4 @@
 package expression;
 
-public class GreaterThanOrEqualsTo extends Expression {
+public class GreaterThanOrEqualsTo extends Comparator {
 }

@@ -1,4 +1,4 @@
 package expression;
 
-public class Division extends Expression {
+public class Division extends BinaryOp {
 }

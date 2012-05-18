@@ -1,5 +1,12 @@
 import slip.trees.TreeNode;
 
+import expression.*;
+import statement.*;
+import value.*;
+
+import java.util.List;
+import java.util.LinkedList;
+
 public class ST2AST{
   private static int trad0(TreeNode tree){
   // Tree symbol is LEX_INT
@@ -49,7 +56,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static BooleanE trad46(TreeNode tree){
+  private static BooleanValue trad46(TreeNode tree){
   // tree symbol is <boolean>
 
     int r = tree.getRule() ;
@@ -57,11 +64,11 @@ public class ST2AST{
     {
        case 0 : // <boolean> --> true 
                { 
-                 return new BooleanE(new BooleanValue(true)) ; // a modifier
+                 return new BooleanValue(true) ; // a modifier
                }
        case 1 : // <boolean> --> false 
                { 
-                 return new BooleanE(new BooleanValue(false)) ; // a modifier
+                 return new BooleanValue(false) ; // a modifier
                }
        default : return null ;
     }
@@ -80,7 +87,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Expression trad48(TreeNode tree){
+  private static Identifier trad48(TreeNode tree){
   // tree symbol is <identifier>
 
     int r = tree.getRule() ;
@@ -88,13 +95,13 @@ public class ST2AST{
     {
        case 0 : // <identifier> --> $ <identifier0> 
                { 
-                 Expression x1 = trad49(tree.getChild(1)) ;
+                 Identifier x1 = trad49(tree.getChild(1)) ;
                  return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Expression trad49(TreeNode tree){
+  private static Identifier trad49(TreeNode tree){
   // tree symbol is <identifier0>
 
     int r = tree.getRule() ;
@@ -164,7 +171,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Expression trad53(TreeNode tree){
+  private static BinaryOp trad53(TreeNode tree){
   // tree symbol is <operator>
 
     int r = tree.getRule() ;
@@ -264,7 +271,7 @@ public class ST2AST{
                  BinaryOp x0 = trad53(tree.getChild(0)) ;
                  Expression x1 = trad55(tree.getChild(1)) ;
 		 x0.setRight(x1);
-                 return new x0 ; // a modifier
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
@@ -341,7 +348,7 @@ public class ST2AST{
                }
        case 2 : // <boolean_expression> --> ! <boolean_expression> 
                { 
-                 BooleanE x1 = trad60(tree.getChild(1)) ;
+                 Expression x1 = trad60(tree.getChild(1)) ;
                  return new Not(x1) ; // a modifier
                }
        default : return null ;
@@ -362,7 +369,7 @@ public class ST2AST{
                }
        case 1 : // <boolean_expression0> --> <boolean_operator> <expression> 
                { 
-                 BooleanOp x0 = trad64(tree.getChild(0)) ;
+                 BooleanOperator x0 = trad64(tree.getChild(0)) ;
                  Expression x1 = trad55(tree.getChild(1)) ;
 		 x0.setRight(x1);
                  return x0 ; // a modifier
@@ -374,7 +381,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static BooleanE trad62(TreeNode tree){
+  private static Expression trad62(TreeNode tree){
   // tree symbol is <condition>
 
     int r = tree.getRule() ;
@@ -382,7 +389,7 @@ public class ST2AST{
     {
        case 0 : // <condition> --> <boolean_expression> 
                { 
-                 BooleanE x0 = trad60(tree.getChild(0)) ;
+                 Expression x0 = trad60(tree.getChild(0)) ;
                  return x0 ; // a modifier
                }
        default : return null ;
@@ -404,11 +411,11 @@ public class ST2AST{
                }
        case 2 : // <comparator> --> >= 
                { 
-                 return new GreaterThanOrEquals() ; // a modifier
+                 return new GreaterThanOrEqualsTo() ; // a modifier
                }
        case 3 : // <comparator> --> <= 
                { 
-                 return new LessThanOrEquals() ; // a modifier
+                 return new LessThanOrEqualsTo() ; // a modifier
                }
        case 4 : // <comparator> --> == 
                { 
@@ -535,7 +542,7 @@ public class ST2AST{
     {
        case 0 : // <if> --> if ( <condition> ) { <statement> } <if0> 
                { 
-                 BooleanE x2 = trad62(tree.getChild(2)) ;
+                 Expression x2 = trad62(tree.getChild(2)) ;
                  Statement x5 = trad75(tree.getChild(5)) ;
                  Statement x7 = trad71(tree.getChild(7)) ;
                  return new If(x2, x5, x7) ; // a modifier
@@ -605,7 +612,7 @@ public class ST2AST{
                }
        case 1 : // <statement0> --> while ( <condition> ) { <statement> } 
                { 
-                 BooleanE x2 = trad62(tree.getChild(2)) ;
+                 Expression x2 = trad62(tree.getChild(2)) ;
                  Statement x5 = trad75(tree.getChild(5)) ;
                  return new While(x2, x5) ; // a modifier
                }
@@ -660,7 +667,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Sequence trad75(TreeNode tree){
+  private static Statement trad75(TreeNode tree){
   // tree symbol is <statement>
 
     int r = tree.getRule() ;
@@ -669,7 +676,7 @@ public class ST2AST{
        case 0 : // <statement> --> <statement0> <statement_list> 
                { 
                  Statement x0 = trad74(tree.getChild(0)) ;
-                 Statment x1 = trad76(tree.getChild(1)) ;
+                 Statement x1 = trad76(tree.getChild(1)) ;
 		 if (x1 == null)
 		 	return x0;
                  return new Sequence(x0, x1) ; // a modifier
@@ -695,7 +702,7 @@ public class ST2AST{
        default : return null ;
     }
   }
- public static Object tradProgram(TreeNode tree) throws Exception
+ public static Statement tradProgram(TreeNode tree) throws Exception
  { return  trad44(tree) ; }
 
 }

@@ -1,4 +1,4 @@
 package expression;
 
-public class Modulo extends Expression {
+public class Modulo extends BinaryOp {
 }
