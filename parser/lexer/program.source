@@ -1,5 +1,5 @@
 array($array, 10);
-$array[8] = true;
+$array[8] = "true";
 say($array[8]);
 
 array($array, 3);
@@ -18,8 +18,9 @@ while ($i < 15) {
 	say($i);
 	$i = $i + 1;
 }
-if ($i == 15)
+if ($i == 15) {
 	say($i);
+}
 
 array($array, 10);
 size($array, $val);

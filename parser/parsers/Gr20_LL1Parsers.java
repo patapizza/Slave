@@ -11,44 +11,21 @@ import java.io.File;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.util.Stack;
 
 public class Gr20_LL1Parsers {
 
 	private static int _nb_terminals;
 	private static int[][][] _parse_table;
+	private static GTools _gt;
 
 	public static boolean isOk(ILexer lex, GTools gt) throws Exception {
-		int[] S = new int[1];
-		S[0] = gt.initialSymbol();
-		_nb_terminals = gt.numberOfTerminals();
-		_parse_table = gt.parseTable();
-		return TDD(S, lex);
-	}
-
-	private static boolean TDD(int[] tau, ILexer lex) throws Exception {
-		if (tau.length == 0) {
-			if (lex.getNextSymbol().getTerminal() == _nb_terminals)
-				return true;
+		try {
+			parse(lex, gt);
+		} catch (Exception e) {
 			return false;
 		}
-		int[] _tau = trimFirst(tau);
-		// tau[0] is a terminal
-		if (tau[0] < _nb_terminals) {
-			int x = lex.getNextSymbol().getTerminal();
-			if (x == _nb_terminals || tau[0] != x)
-				return false;
-			return TDD(_tau, lex);
-		}
-		// tau[0] is a non-terminal
-		int[][] rules = _parse_table[tau[0] - _nb_terminals];
-		int i, index;
-		for (i = 0 ; i < rules.length ; i++) {
-			index = ((Lexer) lex).getIndex();
-			if (rules[i] != null && TDD(append(rules[i], _tau), lex))
-				break;
-			((Lexer) lex).setIndex(index);
-		}
-		return i < rules.length;
+		return true;
 	}
 
 	private static int[] trimFirst(int[] a) {
@@ -68,12 +45,54 @@ public class Gr20_LL1Parsers {
 	}
 
 	public static TreeNode parse(ILexer lex, GTools gt) throws Exception {
-		return null;
+		TreeNode root = new TreeNode(gt.initialSymbol(), 0);
+		int[] S = new int[1];
+		S[0] = gt.initialSymbol();
+		_nb_terminals = gt.numberOfTerminals();
+		_parse_table = gt.parseTable();
+		_gt = gt;
+		Stack s = new Stack();
+		s.push(root);
+		_parse(S, lex, s);
+		return root;
+	}
+
+	private static void _parse(int[] tau, ILexer lex, Stack s) throws Exception {
+		if (tau.length == 0) {
+			if (lex.getNextSymbol().getTerminal() == _nb_terminals)
+				return;
+			throw new Exception("Syntaxical exception");
+		}
+		int[] _tau = trimFirst(tau);
+		// tau[0] is a terminal
+		if (tau[0] < _nb_terminals) {
+			IToken token = lex.getNextSymbol();
+			int x = token.getTerminal();
+			if (x == _nb_terminals || tau[0] != x)
+				throw new Exception("Syntaxical exception");
+			((TreeNode) s.pop()).putStringValue(token.getSymbol());
+			_parse(_tau, lex, s);
+			return;
+		}
+		// tau[0] is a non-terminal
+		TreeNode root = (TreeNode) s.pop();
+		int index = ((Lexer) lex).getIndex();
+		int[] rule = _parse_table[tau[0] - _nb_terminals][lex.getNextSymbol().getTerminal()];
+		if (rule == null)
+			throw new Exception("Syntaxical exception");
+		((Lexer) lex).setIndex(index);
+		TreeNode[] children = new TreeNode[rule.length];
+		for (int i = 0 ; i < rule.length ; i++)
+			children[i] = new TreeNode(rule[i]);
+		root.putChilds(_gt.ruleNumber(tau[0], rule), children);
+		for (int i = children.length - 1 ; i > -1 ; i--)
+			s.push(children[i]);
+		_parse(append(rule, _tau), lex, s);
 	}
 
 	public static void main(String[] args) {
 		String s = "";
-		File file = new File("lexer/tiny.source");
+		File file = new File("lexer/program.source");
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
@@ -91,10 +110,12 @@ public class Gr20_LL1Parsers {
 		try {
 			gt = new GTools("Grammar_LL1.txt");
 			lex = new Lexer(s, gt);
-			if (Gr20_LL1Parsers.isOk(lex, gt))
+			/*if (isOk(lex, gt))
 				System.out.println("OK");
 			else
-				System.out.println("KO");
+				System.out.println("KO");*/
+			TreeNode node = parse(lex, gt);
+			node.print("", gt.getGrammar());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

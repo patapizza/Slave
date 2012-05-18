@@ -150,8 +150,8 @@
 <fname> ::= LEX_FNAME
 
 <declaration> ::= <identifier> <declaration0>
-<declaration0> ::= ;
-	| = <expression> ;
+<declaration0> ::= // lambda
+	| = <expression>
 
 <if> ::= if ( <condition> ) { <statement> } <if0>
 <if0> ::= else { <statement> }
@@ -161,7 +161,7 @@
 
 <return> ::= return <expression> ;
 
-<statement0> ::= <declaration>
+<statement0> ::= <declaration> ;
 	| while ( <condition> ) { <statement> }
 	| <if>
 	| say ( <expression> ) ;
