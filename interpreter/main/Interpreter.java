@@ -42,6 +42,7 @@ public class Interpreter {
 			else if (e instanceof StringE)
 				return ((StringE) e).getValue();
 			else if (e instanceof ArrayElement) {
+				((ArrayElement) e).setIndex(((IntValue) eval(((ArrayElement) e).getExpression(), env)).intValue());
 				return env.getElement((ArrayElement) e);
 			}
 			else if (e instanceof Identifier) {
@@ -111,8 +112,6 @@ public class Interpreter {
 				return Value.or((Value)eval(((Or) e).getLeft(), env), (Value)eval(((Or) e).getRight(), env));
 			else if (e instanceof Not)
 				return Value.not((Value)eval(((Not) e).getLeft(), env));
-			//else if (e instanceof Minus)
-			//	return Value.minus((Value)eval(n.getLeft(), env));
 		System.err.println("Unknown expression");
 		return new BooleanValue(false);
 	}
@@ -179,11 +178,11 @@ public class Interpreter {
 			env.update(((Size) s).getVarId(), new IntValue(a.getLength()));
 			return env;
 		}
-		/*else if (s instanceof Write) {
+		else if (s instanceof Write) {
 			FileWriter writer = null;
-			String text = ((StringValue) eval(n.getRight(), env)).stringValue();
+			String text = ((StringValue) eval(((Write) s).getRight(), env)).stringValue();
 			try {
-			     writer = new FileWriter(((StringValue) eval(n.getLeft(), env)).stringValue(), true);
+			     writer = new FileWriter(((StringValue) eval(((Write) s).getLeft(), env)).stringValue(), true);
 			     writer.write(text, 0, text.length());
 			}
 			catch (IOException ex) {
@@ -204,17 +203,17 @@ public class Interpreter {
 		else if (s instanceof Read) {
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File(((StringValue) eval(n.getLeft(), env)).stringValue()));
+				scanner = new Scanner(new File(((StringValue) eval(((Read) s).getLeft(), env)).stringValue()));
 			}
 			catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 			String contents = "";	
 			while (scanner.hasNextLine())
-				contents += scanner.nextLine();
-			env.update(((Read) s).getId(), new StringValue(contents));
+				contents += scanner.nextLine() + "\n";
+			env.update(((Read) s).getRight(), new StringValue(contents));
 			return env;
-		}*/
+		}
 		else if (s instanceof Function) {
 			if (!env.add(((Function) s).getName(), new Parameter(((Function) s).getArgs(), ((Function) s).getBody()))){
 				System.err.println("An error occurred while declaring the function " + ((Function)s).getName());

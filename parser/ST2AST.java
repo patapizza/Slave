@@ -73,7 +73,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static StringE trad47(TreeNode tree){
+  private static StringValue trad47(TreeNode tree){
   // tree symbol is <string>
 
     int r = tree.getRule() ;
@@ -82,7 +82,7 @@ public class ST2AST{
        case 0 : // <string> --> " LEX_STR " 
                { 
                  String x1 = trad4(tree.getChild(1)) ;
-                 return new StringE(new StringValue(x1)) ; // a modifier
+                 return new StringValue(x1) ; // a modifier
                }
        default : return null ;
     }
@@ -112,7 +112,8 @@ public class ST2AST{
                  String x0 = "$" + trad6(tree.getChild(0)) ;
                  Expression x1 = trad50(tree.getChild(1)) ;
 		 Identifier id = new Identifier();
-		 id.set(x0);
+		 if (!id.set(x0))
+		 	System.err.println("Wrong identifier name: "+x0);
 		 if (x1 == null)
 		 	return id;
                  return new ArrayElement(id, x1) ; // a modifier
@@ -218,16 +219,14 @@ public class ST2AST{
                }
        case 2 : // <expression0> --> <string> 
                { 
-                 StringE x0 = trad47(tree.getChild(0)) ;
+                 StringE x0 = new StringE(trad47(tree.getChild(0))) ;
                  return x0 ; // a modifier
                }
        case 3 : // <expression0> --> <fname> ( <expression_list> ) 
                { 
                  FName x0 = trad67(tree.getChild(0)) ;
                  List<Expression> x2 = trad58(tree.getChild(2)) ;
-		 Call c = new Call(x0);
-		 c.setArgs(x2);
-                 return c ; // a modifier
+                 return new Call(x0, x2) ; // a modifier
                }
        case 4 : // <expression0> --> ( <expression> ) 
                { 
@@ -242,7 +241,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static BinaryOp trad55(TreeNode tree){
+  private static Expression trad55(TreeNode tree){
   // tree symbol is <expression>
 
     int r = tree.getRule() ;
@@ -252,8 +251,11 @@ public class ST2AST{
                { 
                  Expression x0 = trad54(tree.getChild(0)) ;
                  BinaryOp x1 = trad56(tree.getChild(1)) ;
-		 x1.setLeft(x0);
-                 return x1 ; // a modifier
+		 if (x1 != null) {
+		 	x1.setLeft(x0);
+			return x1;
+		 }
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
@@ -644,15 +646,17 @@ public class ST2AST{
                  Identifier x4 = trad48(tree.getChild(4)) ;
                  return new Map(x2, x4) ; // a modifier
                }
-       case 7 : // <statement0> --> read ( <identifier> ) ; 
+       case 7 : // <statement0> --> read ( <string> , <identifier> ) ; 
                { 
-                 Identifier x2 = trad48(tree.getChild(2)) ;
-                 return new Read(x2) ; // a modifier
+	         StringE s = new StringE(trad47(tree.getChild(2)));
+                 Identifier x2 = trad48(tree.getChild(4)) ;
+                 return new Read(s, x2) ; // a modifier
                }
-       case 8 : // <statement0> --> write ( <identifier> ) ; 
+       case 8 : // <statement0> --> write ( <string> , <identifier> ) ; 
                { 
-                 Identifier x2 = trad48(tree.getChild(2)) ;
-                 return new Write(x2) ; // a modifier
+	         StringE s = new StringE(trad47(tree.getChild(2)));
+                 Identifier x2 = trad48(tree.getChild(4)) ;
+                 return new Write(s, x2) ; // a modifier
                }
        case 9 : // <statement0> --> size ( <identifier> , <identifier> ) ; 
                { 
