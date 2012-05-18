@@ -1,0 +1,10 @@
+array($array, 10);
+size($array, $length);
+$i = 0;
+while ($i < $length) {
+	$array[$i] = $i + 42;
+	say($array[$i]);
+	$i = $i + 1;
+}
+map(lambda($x) { return $x + 1; }, $array);
+say($array[0]);
