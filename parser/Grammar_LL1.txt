@@ -1,98 +1,13 @@
 <program> ::= <statement>
 
-//<digit> ::= 0
-//	| 1
-//	| 2
-//	| 3
-//	| 4
-//	| 5
-//	| 6
-//	| 7
-//	| 8
-//	| 9
-
-//<number> ::= <digit> <number1>
-//<number1> ::= // lambda
-//	| <number>
-
-//<sign> ::= // lambda
-//	| -
-
-//<int> ::= <sign> <number>
 <int> ::= LEX_INT
 
 <boolean> ::= true
 	| false
 
-//<lower> ::= a
-//	| b
-//	| c
-//	| d
-//	| e
-//	| f
-//	| g
-//	| h
-//	| i
-//	| j
-//	| k
-//	| l
-//	| m
-//	| n
-//	| o
-//	| p
-//	| q
-//	| r
-//	| s
-//	| t
-//	| u
-//	| v
-//	| w
-//	| x
-//	| y
-//	| z
-
-//<caps> ::= A
-//	| B
-//	| C
-//	| D
-//	| E
-//	| F
-//	| G
-//	| H
-//	| I
-//	| J
-//	| K
-//	| L
-//	| M
-//	| N
-//	| O
-//	| P
-//	| Q
-//	| R
-//	| S
-//	| T
-//	| U
-//	| V
-//	| W
-//	| X
-//	| Y
-//	| Z
-
-//<letter> ::= <lower>
-//	| <caps>
-
-//<alphanum> ::= // lambda
-//	| <alphanum1> <alphanum>
-//<alphanum1> ::= <letter>
-//	| <digit>
-
-//<string> ::= " <alphanum> "
 <string> ::= " LEX_STR "
 
-// identifiers gather vars, arrays and global vars
 <identifier> ::= $ <identifier0>
-//<identifier0> ::= <lower> <alphanum> <array>
-//	| <number> // global
 <identifier0> ::= LEX_ID <array>
 <array> ::= // lambda
 	| <array_list>
@@ -129,7 +44,7 @@
 	| <boolean_operator> <expression>
 	| //lambda needed for the "not"
 
-// condition may also be for example an identifier (if handled)
+// condition may further be on identifiers (to test if it exists) (not handled)
 <condition> ::= <boolean_expression>
 
 <comparator> ::= <
@@ -146,7 +61,6 @@
 <arg> ::= // lambda
 	| , <arg0>
 
-//<fname> ::= <lower> <alphanum>
 <fname> ::= LEX_FNAME
 
 <declaration> ::= <identifier> <declaration0>
@@ -165,7 +79,7 @@
 	| while ( <condition> ) { <statement> }
 	| <if>
 	| say ( <expression> ) ;
-	| listen ( ) ;
+	| listen ( <identifier> ) ;
 	| <function>
 	| map ( <lambda_expression> , <identifier> ) ;
 	| read ( <identifier> ) ;

@@ -1,5 +1,5 @@
 array($array, 10);
-$array[8] = "true";
+$array[8] = -42;
 say($array[8]);
 
 array($array, 3);

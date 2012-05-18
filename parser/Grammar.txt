@@ -1,0 +1,73 @@
+// du groupe 20
+<program> ::= <statement>
+
+<int> ::= LEX_INT
+
+<boolean> ::= true
+	| false
+
+<string> ::= " LEX_STR "
+
+<identifier> ::= $ LEX_ID <array>
+<identifier_list> ::= <identifier> <identifier_list0>
+<identifier_list0> ::= // lambda
+	| , <identifier_list>
+
+<array> ::= // lambda
+	| [ <expression> ] <array>
+
+<operator> ::= +
+	| -
+	| *
+	| /
+	| %
+
+<expression> ::= <int>
+	| <string>
+	| <identifier>
+	| <fname> ( <expression_list> )
+	| ( <expression> )
+	| <expression> <operator> <expression>
+<expression_list> ::= <expression> <expression_list0>
+<expression_list0> ::= // lambda
+	| , <expression_list>
+
+<boolean_expression> ::= <boolean>
+	| <expression> <comparator> <expression>
+	| <boolean_expression> <boolean_operator> <boolean_expression>
+	| ! <boolean_expression>
+
+<condition> ::= <boolean_expression>
+
+<lambda_expression> ::= lambda ( <identifier_list> ) { <return> }
+
+<comparator> ::= <
+	| >
+	| >=
+	| <=
+	| ==
+	| !=
+
+<boolean_operator> ::= or
+	| and
+
+<fname> ::= LEX_FNAME
+
+<return> ::= return <expression> ;
+
+<statement> ::= <identifier> ;
+	| <identifier> = <expression> ;
+	| while ( <condition> ) { <statement> }
+	| if ( <condition> ) { <statement> }
+	| if ( <condition> ) { <statement> } else { <statement> }
+	| say ( <expression> ) ;
+	| listen ( <identifier> ) ;
+	| map ( <lambda_expression> , <identifier> ) ;
+	| read ( <identifier> ) ;
+	| write ( <identifier> ) ;
+	| size ( <identifier> , <identifier> ) ;
+	| array ( <identifier> , <int> ) ;
+	| function <fname> ( <identifier_list> ) { <statement> return <expression> ; }
+	| function <fname> ( <identifier_list> ) { return <expression> ; }
+	| <statement> <statement>
+	| <return>
