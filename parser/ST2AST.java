@@ -14,14 +14,14 @@ public class ST2AST{
   private static String trad6(TreeNode tree){
   // Tree symbol is LEX_ID
 
-      return "$" + tree.getStringValue() ; // a modifier
+      return tree.getStringValue() ; // a modifier
   }
   private static String trad29(TreeNode tree){
   // Tree symbol is LEX_FNAME
 
       return tree.getStringValue() ; // a modifier
   }
-  private static Object trad44(TreeNode tree){
+  private static Statement trad44(TreeNode tree){
   // tree symbol is <program>
 
     int r = tree.getRule() ;
@@ -29,8 +29,8 @@ public class ST2AST{
     {
        case 0 : // <program> --> <statement> 
                { 
-                 Object x0 = trad75(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Statement x0 = trad75(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
@@ -80,7 +80,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Identifier trad48(TreeNode tree){
+  private static Expression trad48(TreeNode tree){
   // tree symbol is <identifier>
 
     int r = tree.getRule() ;
@@ -88,13 +88,13 @@ public class ST2AST{
     {
        case 0 : // <identifier> --> $ <identifier0> 
                { 
-                 Object x1 = trad49(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 Expression x1 = trad49(tree.getChild(1)) ;
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad49(TreeNode tree){
+  private static Expression trad49(TreeNode tree){
   // tree symbol is <identifier0>
 
     int r = tree.getRule() ;
@@ -102,14 +102,18 @@ public class ST2AST{
     {
        case 0 : // <identifier0> --> LEX_ID <array> 
                { 
-                 String x0 = trad6(tree.getChild(0)) ;
-                 Object x1 = trad50(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 String x0 = "$" + trad6(tree.getChild(0)) ;
+                 Expression x1 = trad50(tree.getChild(1)) ;
+		 Identifier id = new Identifier();
+		 id.set(x0);
+		 if (x1 == null)
+		 	return id;
+                 return new ArrayElement(id, x1) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad50(TreeNode tree){
+  private static Expression trad50(TreeNode tree){
   // tree symbol is <array>
 
     int r = tree.getRule() ;
@@ -121,13 +125,13 @@ public class ST2AST{
                }
        case 1 : // <array> --> <array_list> 
                { 
-                 Object x0 = trad51(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Expression x0 = trad51(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad51(TreeNode tree){
+  private static Expression trad51(TreeNode tree){
   // tree symbol is <array_list>
 
     int r = tree.getRule() ;
@@ -137,12 +141,12 @@ public class ST2AST{
                { 
                  Expression x1 = trad55(tree.getChild(1)) ;
                  Object x3 = trad52(tree.getChild(3)) ;
-                 return null ; // a modifier
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad52(TreeNode tree){
+  private static Expression trad52(TreeNode tree){
   // tree symbol is <array_list0>
 
     int r = tree.getRule() ;
@@ -154,13 +158,13 @@ public class ST2AST{
                }
        case 1 : // <array_list0> --> <array_list> 
                { 
-                 Object x0 = trad51(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Expression x0 = trad51(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad53(TreeNode tree){
+  private static Expression trad53(TreeNode tree){
   // tree symbol is <operator>
 
     int r = tree.getRule() ;
@@ -168,28 +172,28 @@ public class ST2AST{
     {
        case 0 : // <operator> --> + 
                { 
-                 return null ; // a modifier
+                 return new Addition() ; // a modifier
                }
        case 1 : // <operator> --> - 
                { 
-                 return null ; // a modifier
+                 return new Subtraction() ; // a modifier
                }
        case 2 : // <operator> --> * 
                { 
-                 return null ; // a modifier
+                 return new Multiplication() ; // a modifier
                }
        case 3 : // <operator> --> / 
                { 
-                 return null ; // a modifier
+                 return new Division() ; // a modifier
                }
        case 4 : // <operator> --> % 
                { 
-                 return null ; // a modifier
+                 return new Modulo() ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad54(TreeNode tree){
+  private static Expression trad54(TreeNode tree){
   // tree symbol is <expression0>
 
     int r = tree.getRule() ;
@@ -198,38 +202,38 @@ public class ST2AST{
        case 0 : // <expression0> --> <int> 
                { 
                  Constant x0 = trad45(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 return x0 ; // a modifier
                }
        case 1 : // <expression0> --> <identifier> 
                { 
-                 Object x0 = trad48(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Expression x0 = trad48(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        case 2 : // <expression0> --> <string> 
                { 
                  StringE x0 = trad47(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 return x0 ; // a modifier
                }
        case 3 : // <expression0> --> <fname> ( <expression_list> ) 
                { 
                  FName x0 = trad67(tree.getChild(0)) ;
-                 Object x2 = trad58(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 List<Expression> x2 = trad58(tree.getChild(2)) ;
+                 return new Call(x0, x2) ; // a modifier
                }
        case 4 : // <expression0> --> ( <expression> ) 
                { 
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 return x1 ; // a modifier
                }
        case 5 : // <expression0> --> <lambda_expression> 
                { 
                  Lambda x0 = trad57(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Expression trad55(TreeNode tree){
+  private static BinaryOp trad55(TreeNode tree){
   // tree symbol is <expression>
 
     int r = tree.getRule() ;
@@ -237,14 +241,15 @@ public class ST2AST{
     {
        case 0 : // <expression> --> <expression0> <expression1> 
                { 
-                 Object x0 = trad54(tree.getChild(0)) ;
-                 Object x1 = trad56(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 Expression x0 = trad54(tree.getChild(0)) ;
+                 BinaryOp x1 = trad56(tree.getChild(1)) ;
+		 x1.setLeft(x0);
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad56(TreeNode tree){
+  private static BinaryOp trad56(TreeNode tree){
   // tree symbol is <expression1>
 
     int r = tree.getRule() ;
@@ -256,9 +261,10 @@ public class ST2AST{
                }
        case 1 : // <expression1> --> <operator> <expression> 
                { 
-                 Object x0 = trad53(tree.getChild(0)) ;
+                 BinaryOp x0 = trad53(tree.getChild(0)) ;
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+		 x0.setRight(x1);
+                 return new x0 ; // a modifier
                }
        default : return null ;
     }
@@ -271,14 +277,14 @@ public class ST2AST{
     {
        case 0 : // <lambda_expression> --> lambda ( <arg0> ) { <return> } 
                { 
-                 Object x2 = trad65(tree.getChild(2)) ;
-                 Object x5 = trad73(tree.getChild(5)) ;
-                 return null ; // a modifier
+                 List<Identifier> x2 = trad65(tree.getChild(2)) ;
+                 Return x5 = trad73(tree.getChild(5)) ;
+                 return new Lambda(x5, x2) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad58(TreeNode tree){
+  private static List<Expression> trad58(TreeNode tree){
   // tree symbol is <expression_list>
 
     int r = tree.getRule() ;
@@ -286,14 +292,18 @@ public class ST2AST{
     {
        case 0 : // <expression_list> --> <expression> <expression_list0> 
                { 
+	         List<Expression> exprs = new LinkedList<Expression>();
                  Expression x0 = trad55(tree.getChild(0)) ;
-                 Object x1 = trad59(tree.getChild(1)) ;
-                 return null ; // a modifier
+		 exprs.add(x0);
+                 List<Expression> x1 = trad59(tree.getChild(1)) ;
+		 if (x1 != null)
+		 	exprs.addAll(x1);
+                 return exprs ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad59(TreeNode tree){
+  private static List<Expression> trad59(TreeNode tree){
   // tree symbol is <expression_list0>
 
     int r = tree.getRule() ;
@@ -305,13 +315,13 @@ public class ST2AST{
                }
        case 1 : // <expression_list0> --> , <expression_list> 
                { 
-                 Object x1 = trad58(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 List<Expression> x1 = trad58(tree.getChild(1)) ;
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static BooleanE trad60(TreeNode tree){
+  private static Expression trad60(TreeNode tree){
   // tree symbol is <boolean_expression>
 
     int r = tree.getRule() ;
@@ -319,24 +329,25 @@ public class ST2AST{
     {
        case 0 : // <boolean_expression> --> <boolean> 
                { 
-                 Object x0 = trad46(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 BooleanValue x0 = trad46(tree.getChild(0)) ;
+                 return new BooleanE(x0) ; // a modifier
                }
        case 1 : // <boolean_expression> --> <expression> <boolean_expression0> 
                { 
                  Expression x0 = trad55(tree.getChild(0)) ;
-                 Object x1 = trad61(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 BinaryOp x1 = trad61(tree.getChild(1)) ;
+		 x1.setLeft(x0);
+                 return x1 ; // a modifier
                }
        case 2 : // <boolean_expression> --> ! <boolean_expression> 
                { 
                  BooleanE x1 = trad60(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 return new Not(x1) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad61(TreeNode tree){
+  private static BinaryOp trad61(TreeNode tree){
   // tree symbol is <boolean_expression0>
 
     int r = tree.getRule() ;
@@ -344,15 +355,17 @@ public class ST2AST{
     {
        case 0 : // <boolean_expression0> --> <comparator> <expression> 
                { 
-                 Object x0 = trad63(tree.getChild(0)) ;
+                 Comparator x0 = trad63(tree.getChild(0)) ;
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+		 x0.setRight(x1);
+                 return x0 ; // a modifier
                }
        case 1 : // <boolean_expression0> --> <boolean_operator> <expression> 
                { 
-                 Object x0 = trad64(tree.getChild(0)) ;
+                 BooleanOp x0 = trad64(tree.getChild(0)) ;
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+		 x0.setRight(x1);
+                 return x0 ; // a modifier
                }
        case 2 : // <boolean_expression0> --> <lambda>
                { 
@@ -361,7 +374,7 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Object trad62(TreeNode tree){
+  private static BooleanE trad62(TreeNode tree){
   // tree symbol is <condition>
 
     int r = tree.getRule() ;
@@ -370,12 +383,12 @@ public class ST2AST{
        case 0 : // <condition> --> <boolean_expression> 
                { 
                  BooleanE x0 = trad60(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 return x0 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad63(TreeNode tree){
+  private static Comparator trad63(TreeNode tree){
   // tree symbol is <comparator>
 
     int r = tree.getRule() ;
@@ -383,32 +396,32 @@ public class ST2AST{
     {
        case 0 : // <comparator> --> < 
                { 
-                 return null ; // a modifier
+                 return new LessThan() ; // a modifier
                }
        case 1 : // <comparator> --> > 
                { 
-                 return null ; // a modifier
+                 return new GreaterThan() ; // a modifier
                }
        case 2 : // <comparator> --> >= 
                { 
-                 return null ; // a modifier
+                 return new GreaterThanOrEquals() ; // a modifier
                }
        case 3 : // <comparator> --> <= 
                { 
-                 return null ; // a modifier
+                 return new LessThanOrEquals() ; // a modifier
                }
        case 4 : // <comparator> --> == 
                { 
-                 return null ; // a modifier
+                 return new EqualsTo() ; // a modifier
                }
        case 5 : // <comparator> --> != 
                { 
-                 return null ; // a modifier
+                 return new Different() ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad64(TreeNode tree){
+  private static BooleanOperator trad64(TreeNode tree){
   // tree symbol is <boolean_operator>
 
     int r = tree.getRule() ;
@@ -416,16 +429,16 @@ public class ST2AST{
     {
        case 0 : // <boolean_operator> --> or 
                { 
-                 return null ; // a modifier
+                 return new Or() ; // a modifier
                }
        case 1 : // <boolean_operator> --> and 
                { 
-                 return null ; // a modifier
+                 return new And() ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad65(TreeNode tree){
+  private static List<Identifier> trad65(TreeNode tree){
   // tree symbol is <arg0>
 
     int r = tree.getRule() ;
@@ -433,14 +446,18 @@ public class ST2AST{
     {
        case 0 : // <arg0> --> <identifier> <arg> 
                { 
-                 Object x0 = trad48(tree.getChild(0)) ;
-                 Object x1 = trad66(tree.getChild(1)) ;
-                 return null ; // a modifier
+	         List<Identifier> ids = new LinkedList<Identifier>();
+                 Identifier x0 = trad48(tree.getChild(0)) ;
+		 ids.add(x0);
+                 List<Identifier> x1 = trad66(tree.getChild(1)) ;
+		 if (x1 != null)
+		 	ids.addAll(x1);
+                 return ids ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad66(TreeNode tree){
+  private static List<Identifier> trad66(TreeNode tree){
   // tree symbol is <arg>
 
     int r = tree.getRule() ;
@@ -452,8 +469,8 @@ public class ST2AST{
                }
        case 1 : // <arg> --> , <arg0> 
                { 
-                 Object x1 = trad65(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 List<Identifier> x1 = trad65(tree.getChild(1)) ;
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
@@ -467,12 +484,14 @@ public class ST2AST{
        case 0 : // <fname> --> LEX_FNAME 
                { 
                  String x0 = trad29(tree.getChild(0)) ;
-                 return null ; // a modifier
+		 FName fname = new FName();
+		 fname.set(x0);
+                 return fname ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad68(TreeNode tree){
+  private static Statement trad68(TreeNode tree){
   // tree symbol is <declaration>
 
     int r = tree.getRule() ;
@@ -480,14 +499,17 @@ public class ST2AST{
     {
        case 0 : // <declaration> --> <identifier> <declaration0> 
                { 
-                 Object x0 = trad48(tree.getChild(0)) ;
-                 Object x1 = trad69(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 Identifier x0 = trad48(tree.getChild(0)) ;
+                 Expression x1 = trad69(tree.getChild(1)) ;
+		 if (x1 == null)
+		 	return new Declaration(x0);
+		 else
+                 	return new Assignation(x0, x1) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad69(TreeNode tree){
+  private static Expression trad69(TreeNode tree){
   // tree symbol is <declaration0>
 
     int r = tree.getRule() ;
@@ -500,12 +522,12 @@ public class ST2AST{
        case 1 : // <declaration0> --> = <expression> 
                { 
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 return x1 ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad70(TreeNode tree){
+  private static If trad70(TreeNode tree){
   // tree symbol is <if>
 
     int r = tree.getRule() ;
@@ -513,15 +535,15 @@ public class ST2AST{
     {
        case 0 : // <if> --> if ( <condition> ) { <statement> } <if0> 
                { 
-                 Object x2 = trad62(tree.getChild(2)) ;
-                 Object x5 = trad75(tree.getChild(5)) ;
-                 Object x7 = trad71(tree.getChild(7)) ;
-                 return null ; // a modifier
+                 BooleanE x2 = trad62(tree.getChild(2)) ;
+                 Statement x5 = trad75(tree.getChild(5)) ;
+                 Statement x7 = trad71(tree.getChild(7)) ;
+                 return new If(x2, x5, x7) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad71(TreeNode tree){
+  private static Statement trad71(TreeNode tree){
   // tree symbol is <if0>
 
     int r = tree.getRule() ;
@@ -529,8 +551,8 @@ public class ST2AST{
     {
        case 0 : // <if0> --> else { <statement> } 
                { 
-                 Object x2 = trad75(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 Statement x2 = trad75(tree.getChild(2)) ;
+                 return x2 ; // a modifier
                }
        case 1 : // <if0> --> <lambda>
                { 
@@ -539,24 +561,24 @@ public class ST2AST{
        default : return null ;
     }
   }
-  private static Object trad72(TreeNode tree){
+  private static Function trad72(TreeNode tree){
   // tree symbol is <function>
 
     int r = tree.getRule() ;
     switch (r)
     {
-       case 0 : // <function> --> function <fname> ( <arg> ) { <statement_list> <return> } 
+       case 0 : // <function> --> function <fname> ( <arg0> ) { <statement_list> <return> } 
                { 
                  FName x1 = trad67(tree.getChild(1)) ;
-                 Object x3 = trad66(tree.getChild(3)) ;
-                 Object x6 = trad76(tree.getChild(6)) ;
-                 Object x7 = trad73(tree.getChild(7)) ;
-                 return null ; // a modifier
+                 Object x3 = trad65(tree.getChild(3)) ;
+                 Statement x6 = trad76(tree.getChild(6)) ;
+                 Return x7 = trad73(tree.getChild(7)) ;
+                 return new Function(x1, x3, new Sequence(x6, x7)) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad73(TreeNode tree){
+  private static Return trad73(TreeNode tree){
   // tree symbol is <return>
 
     int r = tree.getRule() ;
@@ -565,12 +587,12 @@ public class ST2AST{
        case 0 : // <return> --> return <expression> ; 
                { 
                  Expression x1 = trad55(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 return new Return(x1) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad74(TreeNode tree){
+  private static Statement trad74(TreeNode tree){
   // tree symbol is <statement0>
 
     int r = tree.getRule() ;
@@ -578,67 +600,67 @@ public class ST2AST{
     {
        case 0 : // <statement0> --> <declaration> ; 
                { 
-                 Object x0 = trad68(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Statement x0 = trad68(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        case 1 : // <statement0> --> while ( <condition> ) { <statement> } 
                { 
-                 Object x2 = trad62(tree.getChild(2)) ;
-                 Object x5 = trad75(tree.getChild(5)) ;
-                 return null ; // a modifier
+                 BooleanE x2 = trad62(tree.getChild(2)) ;
+                 Statement x5 = trad75(tree.getChild(5)) ;
+                 return new While(x2, x5) ; // a modifier
                }
        case 2 : // <statement0> --> <if> 
                { 
-                 Object x0 = trad70(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 If x0 = trad70(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        case 3 : // <statement0> --> say ( <expression> ) ; 
                { 
                  Expression x2 = trad55(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 return new Say(x2) ; // a modifier
                }
        case 4 : // <statement0> --> listen ( <identifier> ) ; 
                { 
-                 Object x2 = trad48(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 Identifier x2 = trad48(tree.getChild(2)) ;
+                 return new Listen(x2) ; // a modifier
                }
        case 5 : // <statement0> --> <function> 
                { 
-                 Object x0 = trad72(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Function x0 = trad72(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        case 6 : // <statement0> --> map ( <lambda_expression> , <identifier> ) ; 
                { 
                  Lambda x2 = trad57(tree.getChild(2)) ;
-                 Object x4 = trad48(tree.getChild(4)) ;
-                 return null ; // a modifier
+                 Identifier x4 = trad48(tree.getChild(4)) ;
+                 return new Map(x2, x4) ; // a modifier
                }
        case 7 : // <statement0> --> read ( <identifier> ) ; 
                { 
-                 Object x2 = trad48(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 Identifier x2 = trad48(tree.getChild(2)) ;
+                 return new Read(x2) ; // a modifier
                }
        case 8 : // <statement0> --> write ( <identifier> ) ; 
                { 
-                 Object x2 = trad48(tree.getChild(2)) ;
-                 return null ; // a modifier
+                 Identifier x2 = trad48(tree.getChild(2)) ;
+                 return new Write(x2) ; // a modifier
                }
        case 9 : // <statement0> --> size ( <identifier> , <identifier> ) ; 
                { 
-                 Object x2 = trad48(tree.getChild(2)) ;
-                 Object x4 = trad48(tree.getChild(4)) ;
-                 return null ; // a modifier
+                 Identifier x2 = trad48(tree.getChild(2)) ;
+                 Identifier x4 = trad48(tree.getChild(4)) ;
+                 return new Size(x2, x4) ; // a modifier
                }
        case 10 : // <statement0> --> array ( <identifier> , <int> ) ; 
                { 
-                 Object x2 = trad48(tree.getChild(2)) ;
+                 Identifier x2 = trad48(tree.getChild(2)) ;
                  Constant x4 = trad45(tree.getChild(4)) ;
-                 return null ; // a modifier
+                 return new ArrayDeclaration(x2, new Array(x4.getValue().intValue())) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad75(TreeNode tree){
+  private static Sequence trad75(TreeNode tree){
   // tree symbol is <statement>
 
     int r = tree.getRule() ;
@@ -646,14 +668,16 @@ public class ST2AST{
     {
        case 0 : // <statement> --> <statement0> <statement_list> 
                { 
-                 Object x0 = trad74(tree.getChild(0)) ;
-                 Object x1 = trad76(tree.getChild(1)) ;
-                 return null ; // a modifier
+                 Statement x0 = trad74(tree.getChild(0)) ;
+                 Statment x1 = trad76(tree.getChild(1)) ;
+		 if (x1 == null)
+		 	return x0;
+                 return new Sequence(x0, x1) ; // a modifier
                }
        default : return null ;
     }
   }
-  private static Object trad76(TreeNode tree){
+  private static Statement trad76(TreeNode tree){
   // tree symbol is <statement_list>
 
     int r = tree.getRule() ;
@@ -665,8 +689,8 @@ public class ST2AST{
                }
        case 1 : // <statement_list> --> <statement> 
                { 
-                 Object x0 = trad75(tree.getChild(0)) ;
-                 return null ; // a modifier
+                 Statement x0 = trad75(tree.getChild(0)) ;
+                 return x0 ; // a modifier
                }
        default : return null ;
     }

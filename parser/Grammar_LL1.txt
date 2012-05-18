@@ -71,7 +71,7 @@
 <if0> ::= else { <statement> }
 	| // lambda
 
-<function> ::= function <fname> ( <arg> ) { <statement_list> <return> }
+<function> ::= function <fname> ( <arg0> ) { <statement_list> <return> }
 
 <return> ::= return <expression> ;
 
